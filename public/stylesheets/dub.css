@@ -4,4 +4,20 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: bottom right;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  font-family: 'Yanone Kaffeesatz', Helvetica, Arial, sans-serif;
+  font-size: 20pt;
+  font-weight: bold;
+  letter-spacing: .1em;
+  margin-top: 3em;
+  text-align: center;
+}
+
+#dubster_levels {
+  display: block;
+  font-size: 60pt;
 }
