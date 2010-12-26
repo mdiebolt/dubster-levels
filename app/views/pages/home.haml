@@ -1,3 +1,37 @@
 %h1
   What are your
   %span#dubster_levels Dubster Levels?
+
+%input{ :type => "text", :name => "location", :size => "50" }
+
+:plain
+  <script>
+  function showlocation() {
+    if (navigator.geolocation) {
+      console.log(navigator.geolocation.getCurrentPosition());
+
+
+      navigator.geolocation.getCurrentPosition(success, function(err) {
+        error("Cannot retrieve your location.");
+        }, {
+          maximumAge: 36000000 // One hour should be close enough
+        }
+      );
+
+      $('#location').text('Retrieving location, please be patient...');
+    }
+    else {
+      error('not supported');
+    }
+  }
+
+  function success(position) {
+    $("#location").text("Successfully retrieved your location.");
+
+
+  }
+
+  function error(msg) {
+    $("#location").text(msg);
+  }
+  </script>
