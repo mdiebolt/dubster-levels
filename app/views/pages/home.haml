@@ -4,10 +4,11 @@
 
 %input#location{ :type => "text", :name => "location", :size => "50", :placeholder => "Enter your address here" }
   #button Go!
+  #levels
 
 :plain
   <script>
-  function showlocation() {
+  function showLocation() {
     if (navigator.geolocation) {
 
       navigator.geolocation.getCurrentPosition(success, function(err) {
@@ -17,7 +18,7 @@
         }
       );
 
-      $('#location').text('Retrieving location, please be patient...');
+      $('#levels').text('Retrieving location, please be patient...');
     }
     else {
       error('not supported');
@@ -25,14 +26,15 @@
   }
 
   function success(position) {
-    $("#location").text("Successfully retrieved your location.");
+    $("#levels").text("Successfully retrieved your location.");
+    console.log(position);
   }
 
   function error(msg) {
-    $("#location").text(msg);
+    $("#levels").text(msg);
   }
 
   $('#button').click(function() {
-    console.log("finding location");
+    showLocation();
   });
   </script>
