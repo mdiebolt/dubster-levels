@@ -3,14 +3,20 @@
   %span#dubster_levels Dubster Levels?
 
 %div
-  %input#location{ :type => "text", :name => "location", :size => "50", :placeholder => "Enter your address here" }<
+  %input#location{ :type => "text", :name => "location", :size => "50", :placeholder => "Enter your City, State and Zipcode here" }<
   #button> Go!
 %h2#levels
-  They're over 
+  They're over
   %span.number 69,000!!
 
-:plain
-  <script>
+:javascript
+  Number.prototype.clamp = function(min, max) {
+    return Math.min(Math.max(this, min), max);
+  };
+
+  $(function() {
+    showLocation();
+  });
 
   var dubsterCoords = {
     latitude: 34.065237,
@@ -36,36 +42,76 @@
   }
 
   function calculateLevels(distance) {
-    return Math.round(75 * distance);
+    var result;
+    var scale;
+
+    distance = distance.clamp(1, 200000);
+
+    if (distance < 60) {
+      scale = 1;
+    } else if (distance < 300) {
+      scale = 9.3;
+    } else {
+      scale = 10;
+    }
+
+    return Math.round((1 / distance) * scale * 69000);
   }
 
   function showLocation() {
     if (navigator.geolocation) {
 
-      navigator.geolocation.getCurrentPosition(success, function(err) {
-        error("Cannot retrieve your location.");
-        }, {
+      navigator.geolocation.getCurrentPosition(success, $.noop, {
           maximumAge: 36000000 // One hour should be close enough
         }
       );
-
-      $('#levels').text('Retrieving location, please be patient...');
-    }
-    else {
-      error('not supported');
     }
   }
 
   function success(position) {
-    $("#levels .number").text(calculateLevels(calculateDistance(position.coords, dubsterCoords)) + "!");
-    $("#levels").show();
+    loadAddressByLngLat(position);
   }
 
-  function error(msg) {
-    $("#levels").text(msg);
+  function loadAddressByLngLat(position) {
+    var data = {
+        lat : position.coords.latitude,
+        lng : position.coords.longitude
+    };
+    var url = "http://ws.geonames.org/findNearestAddressJSON";
+    $.ajax({
+      url: url,
+      dataType: 'jsonp',
+      data: data,
+      success: function(data, textStatus, xhr) {
+        $('#location').val(data.address.placename + ", " + data.address.adminCode1 + " " + data.address.postalcode);
+      },
+      error: $.noop
+    });
+
+    return false;
+  };
+
+  function getLocationData() {
+    $.ajax({
+      url: 'http://ws.geonames.org/postalCodeSearchJSON',
+      dataType: 'jsonp',
+      data: {
+        placename: $('#location').val()
+      },
+      success: function(data, textStatus, xhr) {
+        $("#levels .number").text(calculateLevels(calculateDistance({latitude: data.postalCodes[0].lat, longitude: data.postalCodes[0].lng}, dubsterCoords)) + "!");
+        $("#levels").show();
+      },
+      error: $.noop
+    });
   }
+
+  $('#location').keyup(function(e) {
+    if(e.keyCode == 13) {
+      getLocationData();
+    }
+  });
 
   $('#button').click(function() {
-    showLocation();
+    getLocationData();
   });
-  </script>
