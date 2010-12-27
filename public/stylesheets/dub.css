@@ -50,6 +50,12 @@ input#location {
 }
 
 #levels {
-  font-size: 80pt;
+  display: none;
+  font-size: 40pt;
   margin-top: 1em;
+}
+
+#levels .number {
+  display: block;
+  font-size: 80pt;
 }
