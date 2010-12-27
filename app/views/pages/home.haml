@@ -9,6 +9,34 @@
 
 :plain
   <script>
+
+  var dubsterCoords = {
+    latitude: 34.065237,
+    longitude: -118.240671
+  };
+
+  function toRadians(degrees) {
+    return (Math.PI * degrees) / 180;
+  }
+
+  function calculateDistance(coord1, coord2) {
+
+    var R = 6371; // km
+
+    var dLat = toRadians(coord2.latitude - coord1.latitude);
+    var dLon = toRadians(coord2.longitude - coord1.longitude);
+
+    var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.cos(toRadians(coord1.latitude)) * Math.cos(toRadians(coord2.latitude)) *
+            Math.sin(dLon/2) * Math.sin(dLon/2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    return R * c;
+  }
+
+  function calculateLevels(distance) {
+    return 5000 * distance;
+  }
+
   function showLocation() {
     if (navigator.geolocation) {
 
@@ -27,8 +55,8 @@
   }
 
   function success(position) {
-    $("#levels").text("Successfully retrieved your location.");
-    console.log(position);
+    $("#levels").text("Your Dubster Levels are over "
+      + calculateLevels(calculateDistance(position.coords, dubsterCoords)) + "!");
   }
 
   function error(msg) {
