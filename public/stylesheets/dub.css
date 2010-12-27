@@ -4,13 +4,13 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: bottom right;
+  font-family: 'Yanone Kaffeesatz', Helvetica, Arial, sans-serif;
   margin: 0;
   padding: 0;
   text-align: center;
 }
 
 h1 {
-  font-family: 'Yanone Kaffeesatz', Helvetica, Arial, sans-serif;
   font-size: 20pt;
   font-weight: bold;
   letter-spacing: .1em;
@@ -23,13 +23,33 @@ h1 {
   font-size: 60pt;
 }
 
-input {
-  border: 3px solid #efefef;
-  font-size: 20pt;
+input#location {
+  margin: 0;
   margin-top: 2em;
+}
+
+#location, #button {
+  border: 3px solid #efefef;
+  display: inline-block;
+  font-size: 20pt;
   padding: .25em;
 }
 
-input:focus {
-  border: #999;
+#button {
+  background-color: #efefef;
+  -moz-border-radius-bottomright: 5px;
+  -moz-border-radius-topright: 5px;
+  border-bottom-right-radius: 5px;
+  border-top-right-radius: 5px;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: bold;
+  letter-spacing: .1em;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+#levels {
+  font-size: 80pt;
+  margin-top: 1em;
 }
