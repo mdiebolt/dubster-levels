@@ -2,14 +2,13 @@
   What are your
   %span#dubster_levels Dubster Levels?
 
-%input{ :type => "text", :name => "location", :size => "50" }
+%input#location{ :type => "text", :name => "location", :size => "50", :placeholder => "Enter your address here" }
+  #button Go!
 
 :plain
   <script>
   function showlocation() {
     if (navigator.geolocation) {
-      console.log(navigator.geolocation.getCurrentPosition());
-
 
       navigator.geolocation.getCurrentPosition(success, function(err) {
         error("Cannot retrieve your location.");
@@ -27,11 +26,13 @@
 
   function success(position) {
     $("#location").text("Successfully retrieved your location.");
-
-
   }
 
   function error(msg) {
     $("#location").text(msg);
   }
+
+  $('#button').click(function() {
+    console.log("finding location");
+  });
   </script>
