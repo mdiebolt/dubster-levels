@@ -6,6 +6,7 @@ body {
   background-position: bottom right;
   margin: 0;
   padding: 0;
+  text-align: center;
 }
 
 h1 {
@@ -20,4 +21,15 @@ h1 {
 #dubster_levels {
   display: block;
   font-size: 60pt;
+}
+
+input {
+  border: 3px solid #efefef;
+  font-size: 20pt;
+  margin-top: 2em;
+  padding: .25em;
+}
+
+input:focus {
+  border: #999;
 }
